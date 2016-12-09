@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+    <title>Clustering Algorithms Compare</title>
+
+    <script src="http://d3js.org/d3.v2.js"></script>
+    <link href={{ url_for('static', filename='css/main.css') }} rel="stylesheet" media="screen" type="text/css">
+</head>
+<body>
+
+    <h1>Visualize and Compare Custering Algorithms for Superglue Data</h1>
+    <div id="intro">
+    <h3>Current Data:</h3>
+      <div>Segments Number: {{segments.all_segments|length}}</div>
+      <div>Vicabulary Size: {{segments.vocab|length}}</div>
+      <div>tiemframe in days: {{segments.timeframe}}</div>
+    </div>
+
+    <div id="content">{% block content %}bla{% endblock %}</div>
+
+
+    {% if mux %}
+      <p>The point cloud has a mux={{mux}} muy={{muy}}</p>
+        <form action="/">
+            mean x = <input type="text" name="mux" value="{{mux}}">
+            mean y = <input type="text" name="muy" value="{{muy}}">
+            <input type="submit" value="Submit">
+        </form>
+    {% else %}
+      <p>The point cloud has a mux=3. muy=3.</p>
+        <form action="">
+            mean x = <input type="text" name="mux" value="3.">
+            mean y = <input type="text" name="muy" value="3.">
+            <input type="submit" value="Submit">
+        </form>
+    {% endif %}
+
+    <div id="info">
+        <div id="point-info">
+            Click on a point.
+        </div>
+    </div>
+
+    <div id="plot">
+    </div>
+
+<script src={{ url_for('static', filename='js/main.js') }}></script>
+<script>
+{% if mux %}
+    d3.json("/gdata?mux={{mux}}&muy={{muy}}", callback);
+{% endif %}
+</script>
+
+</body>
+</html>
